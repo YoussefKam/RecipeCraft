@@ -1,0 +1,88 @@
+# Users
+ 1-  Register :
+        https = Post
+        ApiLink = 'https://fridge-craft-server.vercel.app/api/users/register'
+        Attributes {
+            firstName,
+            lastName,
+            userName,
+            email,
+            password
+        }
+
+  2-  Edit Profile :
+        https = Patch
+        ApiLink = 'https://fridge-craft-server.vercel.app/api/users/profile/:userId'  
+        Attributes {
+            firstName,
+            lastName,
+            userName,
+            email,
+            password
+        }  you can Edit on or more at the same time 
+
+  3-  Get UserDetails By Id :
+        https = Get
+        ApiLink = 'https://fridge-craft-server.vercel.app/api/users/:userId'         
+----------------------
+
+#Forgot password
+   1- SendOtp:
+        https = Post
+        ApiLink = 'https://fridge-craft-server.vercel.app/api/otps/sendOTP'  
+        params = {email}      
+
+
+   2- VerifyOtp:
+        https = Get
+        ApiLink = 'https://fridge-craft-server.vercel.app/api/otps/verifyOTP'   
+        params = {email , otp}
+        response = token(required to extract userId)
+
+   3- ResetPassword:
+        https = Post
+        ApiLink = 'https://fridge-craft-server.vercel.app/api/otps/resetPassword/:userId'    
+        params = {userId}    
+        req.body = newPassword
+      
+#Recipes
+  1-  AddNewRecipe :
+        https = Post
+        ApiLink = 'https://fridge-craft-server.vercel.app/api/recipes/add'
+        Attributes {
+           recipeTitle,
+           recipeImage,
+           recipeOverview,
+           ingredients: Type:array of strings must have at least 3 ingredients,
+           instructions,
+        }
+
+  2-  GetAllRecipes:
+        https = Get
+        ApiLink = 'https://fridge-craft-server.vercel.app/api/recipes'    
+  
+  3-  RecipePage:
+        https = Get
+        ApiLink = 'https://fridge-craft-server.vercel.app/api/recipes/findById/:recipeId'    
+
+  4- Search:
+        https = Get
+        ApiLink = 'https://fridge-craft-server.vercel.app/api/recipes/search/params'
+        params = "recipeTitle" or "ingredients"  
+
+
+#Saved Recipes 
+    Add a recipe to saved:
+    https = Post
+    ApiLink = 'https://fridge-craft-server.vercel.app/api/savedRecipes'
+    Attributes {
+        req.body (recipe(recipeTitle),user(userName))
+    }
+    Headers = Authorization : Bearer token
+
+    View saved recipes:
+    https = Get
+    ApiLink = 'https://fridge-craft-server.vercel.app/api/savedRecipes/id'
+    Attributes {
+       savedRecipe Id
+    }
